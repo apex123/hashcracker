@@ -1,5 +1,5 @@
-Hashcracker.py
-==============
+Hashcracker
+===========
 
 Python 3 program for dictionary attacks on password hashes
 
