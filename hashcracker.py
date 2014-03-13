@@ -7,40 +7,22 @@ if int(sys.version[0]) != 3:
     sys.exit()
     
 
+def get_algorithm( type ):
+    # Dynamically creates the right function and returns it
+    # using python closure, it is only used to build types_dict
+    def algorithm( string ):
+        h = type()
+        h.update(string.encode('utf-8'))
+        return h.hexdigest()
+    return algorithm
 
-class Hash(object):
-    """ Class for storing all hash methods """
-    def md5(string):
-        h = hashlib.md5()
-        h.update(string.encode('utf-8'))
-        return h.hexdigest()
-        
-    def sha1(string):
-        h = hashlib.sha1()
-        h.update(string.encode('utf-8'))
-        return h.hexdigest()
-        
-    def sha224(string):
-        h = hashlib.sha224()
-        h.update(string.encode('utf-8'))
-        return h.hexdigest()
-        
-    def sha256(string):
-        h = hashlib.sha256()
-        h.update(string.encode('utf-8'))
-        return h.hexdigest()
-        
-    def sha384(string):
-        h = hashlib.sha384()
-        h.update(string.encode('utf-8'))
-        return h.hexdigest()
-        
-    def sha512(string):
-        h = hashlib.sha512()
-        h.update(string.encode('utf-8'))
-        return h.hexdigest()
-        
 
+types_dict = { 32 : get_algorithm( hashlib.md5 ), 
+               40 : get_algorithm( hashlib.sha1 ), 
+               56 : get_algorithm( hashlib.sha224 ), 
+               64 : get_algorithm( hashlib.sha256 ),  
+               96 : get_algorithm( hashlib.sha384 ),  
+               128 : get_algorithm( hashlib.sha512 ) }
 
 class Control(object):
     """ Main class """
@@ -48,7 +30,6 @@ class Control(object):
     def main(self):
         # Main class.
         self.decrypted_hash = None
-        
         # Calls the get_hash method
         self.user_hash = self.get_hash()
         
@@ -73,37 +54,12 @@ class Control(object):
             # If hash is not valid, calls the retry method.
             
             if hash_input.isalnum(): # Ensures that the hash only contains alpha-numeric characters
+                length = len(hash_input)
                 
-                if len(hash_input) == 32:
-                    self.hashtype = Hash.md5
-                    print('Hash type md5 detected.')
+                if types_dict.get( length, None ):
+                    self.hashtype = types_dict[length]
                     return hash_input
-                
-                elif len(hash_input) == 40:
-                    self.hashtype = Hash.sha1
-                    print('Hash type sha1 detected')
-                    return hash_input
-                
-                elif len(hash_input) == 56:
-                    self.hashtype = Hash.sha224
-                    print('Hash type sha224 detected')
-                    return hash_input
-                
-                elif len(hash_input) == 64:
-                    self.hashtype = Hash.sha256
-                    print('Hash type sha256 detected')
-                    return hash_input
-                
-                elif len(hash_input) == 96:
-                    self.hashtype = Hash.sha384
-                    print('Hash type sha384 detected')
-                    return hash_input
-                    
-                elif len(hash_input) == 128:
-                    self.hashtype = Hash.sha512
-                    print('Hash type sha512 detected')
-                    return hash_input
-                    
+
                 else:
                     self.retry('invalid hash')
             
