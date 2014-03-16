@@ -27,9 +27,12 @@ types_dict = { 32 : get_algorithm( hashlib.md5 ),
 class Control(object):
     """ Main class """
     
-    def main(self):
-        # Main class.
+    def __init__(self):
         self.decrypted_hash = None
+        self.user_file = None
+    
+    
+    def main(self):
         # Calls the get_hash method
         self.user_hash = self.get_hash()
         
@@ -70,7 +73,6 @@ class Control(object):
     def gen_wordlist(self):
         # Prompts for a wordlist. If wordlist is not in the same directory as the program, 
         # please enter the full path to the wordlist file.
-        self.user_file = None
         
         while self.user_file == None:
             self.filename = input('Please enter the name of the wordlist:  ')
