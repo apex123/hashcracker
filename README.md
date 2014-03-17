@@ -5,6 +5,8 @@ Python 3 program for dictionary attacks on password hashes
 
 Written by Dan Boxall, aka "apex123". Many thanks to purplex for testing the program and helping to clean the code, and to 2laXt3rmn8r for testing the program and compiling the wordlist.
 
+Recent update by Rexos - major code clean up and slight speed increase. 
+
 GENERAL USAGE NOTES
 ===================
 - This version of Hashcracker can only be used with Python 3. I will be writing a version for python 2 later.
