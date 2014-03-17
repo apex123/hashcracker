@@ -9,7 +9,7 @@ if int(sys.version[0]) != 3:
 
 def get_algorithm( type ):
     # Dynamically creates the right function and returns it
-    # using python closure, it is only used to build types_dict
+    # using python closure, it is only used to build types_dict.
     def algorithm( string ):
         h = type()
         h.update(string.encode('utf-8'))
